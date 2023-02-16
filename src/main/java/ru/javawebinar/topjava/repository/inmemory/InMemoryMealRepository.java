@@ -1,18 +1,16 @@
 package ru.javawebinar.topjava.repository.inmemory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryMealRepository implements MealRepository {
+    private static final Logger log = LoggerFactory.getLogger(InMemoryMealRepository.class);
     private final Map<Integer, Meal> repository = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(0);
 
@@ -40,7 +39,7 @@ public class InMemoryMealRepository implements MealRepository {
             // handle case: update, but not present in storage
             return repository.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
         }
-        throw new NotFoundException("Not found entity with " + meal.getId());
+        return null;
     }
 
     @Override
@@ -48,7 +47,7 @@ public class InMemoryMealRepository implements MealRepository {
         if (isUserMeal(userId, repository.get(id))) {
             return repository.remove(id) != null;
         }
-        throw new NotFoundException("Not found entity with " + repository.get(id));
+        return false;
     }
 
     @Override

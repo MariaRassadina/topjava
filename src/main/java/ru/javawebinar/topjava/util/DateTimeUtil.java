@@ -9,18 +9,11 @@ public class DateTimeUtil {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public static boolean isBetweenHalfOpen(LocalTime lt, LocalTime startTime, LocalTime endTime) {
-      return lt.compareTo(startTime) >= 0 && lt.compareTo(endTime) < 0;
-
+        return lt.compareTo(startTime) >= 0 && lt.compareTo(endTime) < 0;
     }
 
-    public static <T> boolean isBetween(T cur, T start, T end) {
-        if (cur instanceof LocalDate) {
-            return ((LocalDate) cur).compareTo((LocalDate) start) >= 0 && ((LocalDate) cur).compareTo((LocalDate) end) <= 0;
-        } else if (cur instanceof LocalTime) {
-            return ((LocalTime) cur).compareTo((LocalTime) start) >= 0 && ((LocalTime) cur).compareTo((LocalTime) end) <= 0;
-        } else {
-            return false;
-        }
+    public static <T extends Comparable> boolean isBetween(T value, T start, T end) {
+        return value.compareTo(start) >= 0 && value.compareTo(end) <= 0;
     }
 
     public static String toString(LocalDateTime ldt) {

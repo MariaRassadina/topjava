@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +21,7 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public boolean delete(int id) {
+
         return repository.remove(id) != null;
     }
 
@@ -31,7 +33,10 @@ public class InMemoryUserRepository implements UserRepository {
             return user;
         }
         // handle case: update, but not present in storage
-        return repository.computeIfPresent(user.getId(), (id, oldUser) -> user);
+        User savedUser = repository.computeIfPresent(user.getId(), (id, oldUser) -> user);
+        log.info("User " + savedUser.getId() + " saved");
+        return savedUser;
+
     }
 
     @Override
@@ -41,16 +46,16 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public List<User> getAll() {
-        return new ArrayList<>(repository.values()).stream()
+        return repository.values().stream()
                 .sorted(Comparator.comparing(User::getName))
                 .collect(Collectors.toList());
     }
 
     @Override
     public User getByEmail(String email) {
-      return   repository.values().stream()
+        return repository.values().stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst()
-                .get();
+                .orElse(null);
     }
 }
