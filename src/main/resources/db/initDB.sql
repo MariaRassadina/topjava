@@ -1,6 +1,6 @@
+DROP TABLE IF EXISTS meals;
 DROP TABLE IF EXISTS user_role;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS meals;
 DROP SEQUENCE IF EXISTS global_seq;
 
 CREATE SEQUENCE global_seq START WITH 100000;
@@ -28,10 +28,10 @@ CREATE TABLE user_role
 CREATE TABLE meals
 (
     id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    dateTime    TIMESTAMP  WITH TIME ZONE NOT NULL,
+    date_time   TIMESTAMP NOT NULL,
     description VARCHAR   NOT NULL,
     calories    VARCHAR   NOT NULL,
     user_id     INTEGER   NOT NULL,
-    CONSTRAINT user_id_dateTime_idx UNIQUE (user_id, dateTime),
+    CONSTRAINT user_id_dateTime_idx UNIQUE (user_id, date_time),
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
