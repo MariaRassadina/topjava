@@ -3,7 +3,7 @@ package ru.javawebinar.topjava.model;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -46,11 +46,9 @@ public class Meal extends AbstractBaseEntity {
         this(m.id, m.dateTime, m.description, m.calories);
     }
 
-
     public Meal(LocalDateTime dateTime, String description, int calories) {
         this(null, dateTime, description, calories);
     }
-
 
     public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
         super(id);
