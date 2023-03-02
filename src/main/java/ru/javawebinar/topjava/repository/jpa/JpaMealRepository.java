@@ -26,7 +26,6 @@ public class JpaMealRepository implements MealRepository {
             User ref = em.getReference(User.class, userId);
             meal.setUser(ref);
             em.persist(meal);
-
             return meal;
         } else {
             if (get(meal.getId(), userId) != null) {
@@ -67,7 +66,7 @@ public class JpaMealRepository implements MealRepository {
         return em.createNamedQuery(Meal.BETWEEN_HALF_OPEN, Meal.class)
                 .setParameter(1, startDateTime)
                 .setParameter(2, endDateTime)
-                .setParameter("userId", userId)
+                .setParameter(3, userId)
                 .getResultList();
     }
 }
