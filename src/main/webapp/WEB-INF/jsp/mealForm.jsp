@@ -5,15 +5,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <jsp:include page="/WEB-INF/jsp/fragments/headTag.jsp"/>
-<head>
-    <link rel="stylesheet" href="resources/css/style.css">
-</head>
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp"/>
 <section>
-    <h3><a href="index.html"><spring:message code="app.home"/></a></h3>
     <hr>
-    <h2><spring:message code="meal.${param.action == 'create' ? 'create' : 'edit'}"/></h2>
+    <h2><spring:message code="meal.${meal.id == null ? 'create' : 'edit'}"/></h2>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
     <form method="post" action="meals">
         <input type="hidden" name="id" value="${meal.id}">

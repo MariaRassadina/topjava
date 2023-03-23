@@ -32,18 +32,18 @@ public abstract class AbstractServiceTest {
     @Autowired
     private Environment environment;
 
-    protected void checkProfile()  {
-        Assume.assumeFalse(isJDBC());
-    }
-    private boolean isJDBC() {
-        return environment.acceptsProfiles(Profiles.of(JDBC));
-    }
-
     @ClassRule
     public static ExternalResource summary = TimingRules.SUMMARY;
 
     @Rule
     public Stopwatch stopwatch = TimingRules.STOPWATCH;
+
+    protected void checkActiveProfile()  {
+        Assume.assumeFalse(isJdbc());
+    }
+    private boolean isJdbc() {
+        return environment.acceptsProfiles(Profiles.of(JDBC));
+    }
 
     //  Check root cause in JUnit: https://github.com/junit-team/junit4/pull/778
     protected <T extends Throwable> void validateRootCause(Class<T> rootExceptionClass, Runnable runnable) {

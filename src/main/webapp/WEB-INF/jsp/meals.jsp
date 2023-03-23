@@ -8,7 +8,6 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/fragments/bodyHeader.jsp"/>
 <section>
-    <h3><a href="index.jsp"><spring:message code="app.home"/></a></h3>
     <hr/>
     <h2><spring:message code="meal.title"/></h2>
     <form method="get" action="meals">
@@ -29,10 +28,10 @@
             <dt><spring:message code="meal.toTime"/></dt>
             <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
         </dl>
-        <button type="submit"><spring:message code="meal.filter"/></button>
+        <button type="submit" formaction="meals/filter"><spring:message code="meal.filter"/></button>
     </form>
     <hr/>
-    <a href="meals/create?action=create"><spring:message code="meal.add"/></a>
+    <a href="meals/create"><spring:message code="meal.add"/></a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -55,8 +54,8 @@
                 </td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
-                <td><a href="meals/update?action=update&id=${meal.id}"><spring:message code="meal.update"/></a></td>
-                <td><a href="meals/delete?action=delete&id=${meal.id}"><spring:message code="meal.delete"/></a></td>
+                <td><a href="meals/update?id=${meal.id}"><spring:message code="meal.update"/></a></td>
+                <td><a href="meals/delete?id=${meal.id}"><spring:message code="meal.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>
